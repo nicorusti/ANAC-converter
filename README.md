@@ -1,4 +1,5 @@
 # AVCP
-programma per la conversione da xml a json dei file di contratti pubblici in conformità alla l 190/2012
+programma per la conversione da xml a json dei file di contratti pubblici relativi alla legge 190/2012
 
-Una volta lanciato il programma, inserire il nome del file di indice o del file di dati da parsificare (da trovarsi nella stessa cartella del programma)
+Il programma, ricevuto come input il file di indice o il file di dati, restituisce un json la cui struttura ricalca fedelmente quella specificata nel specifiche tecniche AVCP: http://www.anticorruzione.it/portal/rest/jcr/repository/collaboration/Digital%20Assets/pdf/AllCom27.05.13SpecificeTecnichev1.0.pdf 
+Viene aggiunto, inoltre, il campo "type", valorizzato con  "partecipante" o  "raggruppamento", in modo da poter trattare i dati del partecipante o raggruppamento in modo diverso. 
