@@ -5,9 +5,11 @@ ISTRUZIONI:
 Usare le seguenti funzioni presenti in main():
 
 getFileNameFromCommandLine()
+
 Converte singoli file xml, già presenti nella stessa cartella dove viene eseguito lo script, in formato json
 
 downloadAndParseEverything("http:\\url_file_indice.xml")
+
 Scarica e parsifica tutti i file (indice compreso) linkati dal file di indice. Passare alla funzione l'url del file di indice. 
 
 
