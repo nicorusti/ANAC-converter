@@ -398,7 +398,7 @@ def main ():
     #getFileNameFromCommandLine()
 
     #decommentare per scaircare e parsificare tutti i file linkati dall'indice
-    downloadAndParseEverything("http://www.swas.polito.it/services/avcp/avcpIndice2013.xml")
+    #downloadAndParseEverything("http://www.swas.polito.it/services/avcp/avcpIndice2013.xml")
     
     
 
