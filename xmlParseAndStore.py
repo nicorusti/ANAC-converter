@@ -2,6 +2,9 @@ from xml.dom.minidom import parse
 import xml.dom.minidom
 import json
 import sys
+import urllib.request
+import urllib.parse
+import os
 
 #funzione per lavorare con un membro di tipo singolo
 def companyParse(membro, tipoAzienda):
@@ -152,7 +155,7 @@ def lottiToObject(rootNode):
             tenders.append(gara)
 
             #decommentare per stampare i C.F nulli (uguali a 00000000000 )
-            #codiceFiscaleCheck(lot)
+            #codiceFiscaleCheck(gara)
         print ("trovati ", nLotti, "lotti")
         lottiObj=dict()
         lottiObj["lotto"]=tenders
@@ -189,15 +192,30 @@ def dataXmlToJson(fIn):
     f.close()
     print ("file ", fOutName, "creato correttamente")
 
-#funzione che scrive il file di indice dei contratti in formato json
+#funzione che scrive il file di indice dei contratti in formato json, più un file downloadInfo.json con informazioni sul download del file 
 def indexXmlToJson(fIn):
     print("converting ", fIn, "to json")
-    if fIn.endswith('.xml'):
-        fOutName= fIn[:-4]+".json"
-        f = open(fOutName, 'w')
-    json.dump(parseIndexDataset(fIn), f, indent=4)
-    f.close()
-    print ("file ", fOutName, "creato correttamente")
+    try:
+        if fIn.endswith('.xml'):
+            fOutName= fIn[:-4]+".json"
+            f = open(fOutName, 'w')
+        indexData=parseIndexDataset(fIn)
+        json.dump(indexData, f, indent=4)
+        f.close()
+        
+        
+        indexInfoFileName="download/temp/downloadInfo.json"
+        f = open(indexInfoFileName, 'w')
+        downloadInfo=indexData['indice']
+        for dataset in downloadInfo:
+            dataset['anno']=indexData['metadata']['annoRiferimento']
+        json.dump(downloadInfo, f, indent=4)
+        f.close()
+        
+        print ("file ", fOutName,   " e " ,indexInfoFileName, "creato correttamente")
+    except:
+        print ("ERRORE: file ", fOutName, " e " ,indexInfoFileName, "non creati")
+    return [fOutName, indexInfoFileName, indexData['metadata']['annoRiferimento'], indexData['metadata']['entePubblicatore'],]
 
 #funzione che scrive il file dei dati dei contratti in formato json
 def parseXmlDataset(fileName): 
@@ -230,7 +248,7 @@ def indexMetadataToObject(rootNode):
             content=metadata.getElementsByTagName(metadataField)[0].childNodes[0].data
             metadataObj[metadataField]=content
 
-    #lettura  campi obbligatori (ma controllo sulla loro presenza aggiunto comunque 
+    #lettura  campi obbligatori  
     for metadataField in compulsoryMetadataFields:
         if metadata.getElementsByTagName(metadataField)[0].childNodes[0].length!=0: 
             metadataObj[metadataField]=metadata.getElementsByTagName(metadataField)[0].childNodes[0].data        
@@ -268,12 +286,89 @@ def codiceFiscaleCheck(lotto):
             if partecipante["identificativoFiscaleEstero"]=="00000000000":
                 print ("partecipante estero errato: ",lotto['cig'], " " ,partecipante['identificativoFiscaleEstero'], " ",partecipante['ragioneSociale'])
                 print()
-   
-def main():
+
+def download(url, filename):
+    #rifai con librerie compatibili con python 2.7!! Tieni il tutto compatibile con pyth 2.7
+    try:
+        result=urllib.request.urlretrieve(url, filename)
+        print (result[1])
+    except urllib.error.URLError:
+        print("error while downloading the file", url)
+    except urllib.error.ContentTooShortError(msg, content):
+        print ("error, data not fully downloaded")
+
+    #scarica e parsifica, nel percorso download/ente_pubblicatore/anno
+    # -->file di indice
+    # -->tutti i dataset linkati nel file di indice
+    #inoltre vi salva un file downloadInfo.json contenente informazioni sull'esito dei download e dei parsing 
+def downloadAndParseEverything(url):
+    if  os.path.exists("download/")==False:
+        os.mkdir("download/") 
+    xmlFileName = url.split('/')[-1].split('#')[0].split('?')[0]
+    tempDirectory="download/temp/"
+    xmlFileTempPath=tempDirectory+xmlFileName
+    try:
+        os.stat(tempDirectory)
+    except:
+        os.mkdir(tempDirectory)
+    download(url, xmlFileTempPath)
+    
+    try:
+          indexFileInfo=indexXmlToJson(xmlFileTempPath)
+    except FileNotFoundError:
+            print("errore, file ", xmlFileTempPath , "non trovato")
+            
+    #creazione della directory definitive download/nome_istituzione/anno
+    defInstitutionDirectory ="download/"+clearString(indexFileInfo[3])+"/"
+    if  os.path.exists(defInstitutionDirectory)==False:
+        os.mkdir(defInstitutionDirectory) 
+
+    
+    defDirectory =defInstitutionDirectory+indexFileInfo[2]+"/"
+    i=0
+    while os.path.exists(defDirectory)==True:
+        i=i+1
+        print("controllo di ", defDirectory)        
+        defDirectory =defInstitutionDirectory+indexFileInfo[2]+"_"+str(i)+"/"
+    os.mkdir(defDirectory)    
+    #spostamento dei file nella directory definitive
+    print("spostandi i file")
+    xmlFileDefPath=defDirectory+xmlFileTempPath.split('/')[-1]
+    jsonFileDefPath=defDirectory+indexFileInfo[0].split('/')[-1]
+    downloadInfoFileDefPath=defDirectory+indexFileInfo[1].split('/')[-1]
+    os.rename(xmlFileTempPath, xmlFileDefPath)
+    os.rename(indexFileInfo[0], jsonFileDefPath)
+    os.rename( indexFileInfo[1], downloadInfoFileDefPath)
+
+    #lettura del file con le informazioni du download e parsing dei dataset
+    f = open(downloadInfoFileDefPath, 'r')
+    downloadInfo=json.loads(f.read())
+    f.close()
+    #downbload e parsing dei dataset
+    for dataset in downloadInfo:
+        url=dataset['linkDataset']
+        xmlDatasetFileName = url.split('/')[-1].split('#')[0].split('?')[0]
+        xmlDatasetFilePath=defDirectory+xmlDatasetFileName
+        try: 
+            download(url, xmlDatasetFilePath)
+            dataset['downloaded']="True"
+        except:
+            dataset['downloaded']="False"
+        try:
+            indexFileInfo=dataXmlToJson(xmlDatasetFilePath)
+            dataset['parsed']="True"
+        except:
+            dataset['parsed']="False"
+    f = open(downloadInfoFileDefPath, 'w')       
+    json.dump(downloadInfo, f, indent=4)
+    f.close()
+
+#trasforma in json file già presenti in locale nella stessa cartella dello script 
+def getFileNameFromCommandLine():
     fileOk=False
     while fileOk== False: 
         try:
-            indice=input('Inserire il nome del file di indice, invio per saltare\n' )
+            indice=input('Inserire l url del file di indice, invio per saltare\n' )
             if len(indice)!=0:
                 indexXmlToJson(indice)
                 fileOk=True
@@ -293,8 +388,19 @@ def main():
                 fileOk=True 
         except FileNotFoundError:
             print("errore, file ", indice , "non trovato")
+def clearString(s):
+    s1=s.translate( "*.\"/\[]:;|=,")
+    s2=s.replace(" ", "_")
+    return s2
             
+def main ():
+    #decommentare per elaborare file già presenti in locale, nella stessa cartella dove si trova lo script
+    #getFileNameFromCommandLine()
 
+    #decommentare per scaircare e parsificare tutti i file linkati dall'indice
+    downloadAndParseEverything("http://www.swas.polito.it/services/avcp/avcpIndice2013.xml")
+    
+    
 
 
 main()
