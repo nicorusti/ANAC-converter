@@ -7,19 +7,21 @@ La struttura dell'output in  json ricalca quella indicata  nelle [specifiche tec
 * Conversione in maiuscolo e pulizia da caratteri non alfanumerici di cig e codici fiscali/p.iva. Controllo della corrispondenza di cig e codice fiscale /p.iva alle specifiche. (cig=10 char alfanumerici). Controllo che cig, c.f./p.iva non siano valorizzati rispettivamente con "0000000000" e "00000000000". 
 * Partecipanti/aggiudicatari privi di dati validi (né intestazione né p.iva/c.f.) non vengono aggiunti al json 
 * In un raggruppamento, se la stringa relativa al ruolo non corrisponde alle specifiche dello [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd), viene inserita la stringa più simile tra quelle previste dallo schema. in questo caso, la stringa originale viene inserita comunque con la chiave "ruoloOriginal". 
-* Nello stesso modo viene processato il campo sceltaContraente: sceltaContraenteOriginal viene aggiunto se esso non corrisponde al suddetto [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+* Nello stesso modo viene processato il campo sceltaContraente: "sceltaContraenteOriginal" viene aggiunto se esso non corrisponde al suddetto [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
 		
 #Aggiunta di campi aggiuntivi ed hash: 
-+ Per ciascun partecipante/agiudicatario: campo "type", valorizzato con  "partecipante" o  "raggruppamento", in modo da poter trattare i dati del partecipante o raggruppamento in modo diverso. 
-+ Per ciascuna gara con CIG non valido o nullo (casi di gare per le quali non è prevista l'assegnazione del cig): campo "cigHash"  in forma di stringa esadecimale [sha1](http://en.wikipedia.org/wiki/SHA-1), costruito in base a: 
++ Per ciascun partecipante/agiudicatario: campo **"type"**, valorizzato con  "partecipante" o  "raggruppamento", in modo da poter trattare i dati del partecipante o raggruppamento in modo diverso. 
++ Per ciascuna gara, è presente il campo **"cigValid"** valorizzato con true / false
++ Per ciascuna gara con CIG non valido o nullo (casi di gare per le quali non è prevista l'assegnazione del cig): campo **"cigHash"**  in forma di stringa esadecimale [sha1](http://en.wikipedia.org/wiki/SHA-1), costruito in base a: 
 	* Codice Fiscale della struttura proponente
 	* Importo Aggiudicazione
 	* Scelta Contraente (tipo di procedura di aggiudicazione) 
 	* Codice Fiscale(di seguito C.F.)/p.iva dell'aggiudicatario. Nel caso l'aggiudicatario sia un raggruppamento, l'hash è costruito in base ai C.F./p.iva in ordine alfabetico
-+ Per ciascun raggruppamento: campo "groupHash" in forma di stringa esadecimale [sha1](http://en.wikipedia.org/wiki/SHA-1), costruito in base a: 
++ Per ciascun raggruppamento: campo **"groupHash"** in forma di stringa esadecimale [sha1](http://en.wikipedia.org/wiki/SHA-1), costruito in base a: 
 	* C.F./p.iva, in ordine alfabetico, dei membri del raggruppamento. 
 	* cig o cigHash. Per ogni gara, quindi, un raggruppamento formato dalle stesse aziende, ottiene hash diversi. Questo affinché il raggruppamento corrisponde alla definizione giuridica di Associazione Temporanea di Impresa
-
+* Aggiunta campi **"sceltaContraenteOriginal"** e  **"ruoloOriginal"** nei casi in cui questi campi nel xml siano valorizzati con stringhe non previste dallo  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+* 
 	
 #Istruzioni: 
 Usare le seguenti funzioni presenti in main():
