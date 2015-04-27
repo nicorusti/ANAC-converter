@@ -1,0 +1,200 @@
+{
+    "data": {
+        "lotto": [
+            {
+                "aggiudicatari": [
+                    {
+                        "aggiudicatarioRaggruppamento": [
+                            {
+                                "codiceFiscale": "04187505004",
+                                "ragioneSociale": "Aggiudicatario NON partecipante s.p.a ",
+                                "ruolo": "02-MANDATARIA"
+                            },
+                            {
+                                "codiceFiscale": "10328750012",
+                                "ragioneSociale": "Gruppo Easy Telecomuinicazioni S.r.l.",
+                                "ruolo": "01-MANDANTE"
+                            }
+                        ],
+                        "groupHash": "db4c36ccb343c76d68e4be459c910e516f958f5f",
+                        "type": "aggiudicatarioRaggruppamento"
+                    }
+                ],
+                "cig": "5128833EDE",
+                "cigValid": true,
+                "importoAggiudicazione": "55406.60",
+                "importoSommeLiquidate": "00.00",
+                "oggetto": "çòàùInterventi di modifica 7°impianti Nicola\\n ciao\\u di trasmissione dati/fonia per l’anno 2013, negli edifici di proprietà del Politecnico di Torino, o a questo affidati in uso, in Torino",
+                "partecipanti": [
+                    {
+                        "codiceFiscale": "01015600057",
+                        "ragioneSociale": "Gruppo Biesse Sistemi S.r.l.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "02833230135",
+                        "ragioneSociale": "MacLan S.r.l.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "05082080010",
+                        "ragioneSociale": "M.C.E. S.r.l.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "01910580024",
+                        "ragioneSociale": "Synapsys S.r.l.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "07649390015",
+                        "ragioneSociale": "STAC ITALIA S.r.l.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "01054360076",
+                        "ragioneSociale": "Ten Solutions S.r.l.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "00222840167",
+                        "ragioneSociale": "VALTELLINA S.p.A.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "groupHash": "dff9ef888b1cb7fee11c415cb64671da64f4bbea",
+                        "raggruppamento": [
+                            {
+                                "codiceFiscale": "04187501004",
+                                "ragioneSociale": "TECNONET S.p.A. ",
+                                "ruolo": "02-MANDATARIA"
+                            },
+                            {
+                                "codiceFiscale": "10328750012",
+                                "ragioneSociale": "Gruppo Easy Telecomuinicazioni S.r.l.",
+                                "ruolo": "01-MANDANTE"
+                            }
+                        ],
+                        "type": "raggruppamento"
+                    },
+                    {
+                        "groupHash": "db4c36ccb343c76d68e4be459c910e516f958f5f",
+                        "raggruppamento": [
+                            {
+                                "codiceFiscale": "04187505004",
+                                "ragioneSociale": "Aggiudicatario NON partecipante s.p.a ",
+                                "ruolo": "02-MANDATARIA"
+                            },
+                            {
+                                "codiceFiscale": "10328750012",
+                                "ragioneSociale": "Gruppo Easy Telecomuinicazioni S.r.l.",
+                                "ruolo": "01-MANDANTE"
+                            }
+                        ],
+                        "type": "raggruppamento"
+                    }
+                ],
+                "sceltaContraente": "04-PROCEDURA NEGOZIATA SENZA PREVIA PUBBLICAZIONE DEL BANDO",
+                "strutturaProponente": [
+                    {
+                        "codiceFiscaleProp": "00518460019",
+                        "denominazione": "Politecnico di Torino"
+                    }
+                ],
+                "tempiCompletamento": {
+                    "dataInizio": "2013-09-09"
+                }
+            },
+            {
+                "aggiudicatari": [
+                    {
+                        "codiceFiscale": "00000000000",
+                        "companyHash": "09a2c7306946ad2c9f431b5d4d77f61fd9e577e2",
+                        "ragioneSociale": "ENERGETIC S.P.A.",
+                        "type": "aggiudicatario"
+                    }
+                ],
+                "cig": "47372885B9",
+                "cigValid": true,
+                "importoAggiudicazione": "26002.80",
+                "importoSommeLiquidate": "17333.40",
+                "oggetto": "manutenzione server HP - partner",
+                "partecipanti": [
+                    {
+                        "codiceFiscale": "07393280016",
+                        "ragioneSociale": "SISTEMI H.S. S.P.A.",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "00000000000",
+                        "companyHash": "7694e6c6ae6a559384015713d78b728a3fb5ede0",
+                        "ragioneSociale": "Aziende invitate MEPA numero:6",
+                        "type": "partecipante"
+                    },
+                    {
+                        "codiceFiscale": "00000000000",
+                        "companyHash": "09a2c7306946ad2c9f431b5d4d77f61fd9e577e2",
+                        "ragioneSociale": "ENERGETIC S.P.A.",
+                        "type": "partecipante"
+                    }
+                ],
+                "sceltaContraente": "08-AFFIDAMENTO IN ECONOMIA - COTTIMO FIDUCIARIO",
+                "sceltaContraenteOriginal": "08-AFIDAMENTO IN ECONOMIA - COTTIMO FIDUCIARIO",
+                "strutturaProponente": [
+                    {
+                        "codiceFiscaleProp": "00518460019",
+                        "denominazione": "Politecnico di Torino"
+                    }
+                ],
+                "tempiCompletamento": {
+                    "dataInizio": "2013-01-01",
+                    "dataUltimazione": "2014-04-30"
+                }
+            },
+            {
+                "aggiudicatari": [
+                    {
+                        "codiceFiscale": "09074960015",
+                        "ragioneSociale": "ARTE RESTAURO CONSERVAZIONE DI ARLOTTO CRISTINA MARIA & C S.A.S.",
+                        "type": "aggiudicatario"
+                    }
+                ],
+                "cig": "Z0707DD82B",
+                "cigValid": true,
+                "importoAggiudicazione": "6950.00",
+                "importoSommeLiquidate": "6950.00",
+                "oggetto": "Alee 626_ARTE RESTAURO CONSERVAZIONE SAS_Attività dipredisposizione al posizionamento di sensori e cavi dell'impiantoantincendio all'interno delle Sale auliche del Castello del Valentino",
+                "partecipanti": [
+                    {
+                        "codiceFiscale": "09074960015",
+                        "ragioneSociale": "ARTE RESTAURO CONSERVAZIONE DI ARLOTTO CRISTINA MARIA & C S.A.S.",
+                        "type": "partecipante"
+                    }
+                ],
+                "sceltaContraente": "08-AFFIDAMENTO IN ECONOMIA - COTTIMO FIDUCIARIO",
+                "strutturaProponente": [
+                    {
+                        "codiceFiscaleProp": "00518460019",
+                        "denominazione": "Politecnico di Torino"
+                    }
+                ],
+                "tempiCompletamento": {
+                    "dataInizio": "2012-12-20",
+                    "dataUltimazione": "2013-02-15"
+                }
+            }
+        ]
+    },
+    "metadata": {
+        "abstract": "Pubblicazione legge 190 anno rif. 2012",
+        "annoRiferimento": "2012",
+        "dataPubbicazioneDataset": "2014-01-31",
+        "entePubblicatore": "Politecnico di Torino",
+        "licenza": "IODL",
+        "titolo": "Pubblicazione legge 190 anno rif. 2012",
+        "urlFile": "www.swas.polito.it/services/avcp/avcp_dataset_2012.xml"
+    },
+    "metrics": {
+        "nLotti": 3
+    }
+}
