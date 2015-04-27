@@ -9,6 +9,7 @@ La struttura dell'output in  json ricalca quella indicata  nelle [specifiche tec
 * Partecipanti/aggiudicatari privi di dati validi (né intestazione né p.iva/c.f.) non vengono aggiunti al json 
 * In un raggruppamento, se la stringa relativa al ruolo non corrisponde alle specifiche dello [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd), viene inserita la stringa più simile tra quelle previste dallo schema. in questo caso, la stringa originale viene inserita comunque con la chiave "ruoloOriginal". 
 * Nello stesso modo viene processato il campo sceltaContraente: "sceltaContraenteOriginal" viene aggiunto se esso non corrisponde al suddetto [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+* Il campo data viene ripulito dai caratteri non nouerici o non "/", inoltre viene ripossa la parte relativa al fuso orario, ove presente, di modo che la data sia conforme a xsd:date --> "aaaa-mm-dd"
 		
 #Aggiunta di campi aggiuntivi ed hash: 
 + Per ciascun partecipante/agiudicatario: campo **"type"**, valorizzato con  "partecipante" o  "raggruppamento", in modo da poter trattare i dati del partecipante o raggruppamento in modo diverso. 
