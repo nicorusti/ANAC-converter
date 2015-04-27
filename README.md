@@ -4,12 +4,13 @@ La struttura dell'output in  json ricalca quella indicata  nelle [specifiche tec
 ![schema](https://cloud.githubusercontent.com/assets/11498717/7343336/afb74876-ecc0-11e4-8ca5-9fedcda4c178.png)
 		
 #Correzione e validazione dei dati
-* L'aggiudicatario di una gara viene aggiunto anche tra i partecipanti, qualora non fosse già presente. 
-* Conversione in maiuscolo e pulizia da caratteri non alfanumerici di cig e codici fiscali/p.iva. Controllo della corrispondenza di cig e codice fiscale /p.iva alle specifiche. (cig=10 char alfanumerici). Controllo che cig, c.f./p.iva non siano valorizzati rispettivamente con "0000000000" e "00000000000". 
+* L'**aggiudicatario** di una gara viene aggiunto anche tra i partecipanti, qualora non fosse già presente. 
+* Conversione in maiuscolo e pulizia da caratteri non alfanumerici di **cig** e **codici fiscali/p.iva**. Controllo della corrispondenza di cig e codice fiscale /p.iva alle specifiche. (cig=10 char alfanumerici). Controllo che cig, c.f./p.iva non siano valorizzati rispettivamente con "0000000000" e "00000000000". 
 * Partecipanti/aggiudicatari privi di dati validi (né intestazione né p.iva/c.f.) non vengono aggiunti al json 
-* In un raggruppamento, se la stringa relativa al ruolo non corrisponde alle specifiche dello [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd), viene inserita la stringa più simile tra quelle previste dallo schema. in questo caso, la stringa originale viene inserita comunque con la chiave "ruoloOriginal". 
-* Nello stesso modo viene processato il campo sceltaContraente: "sceltaContraenteOriginal" viene aggiunto se esso non corrisponde al suddetto [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
-* Il campo data viene ripulito dai caratteri non nouerici o non "/", inoltre viene ripossa la parte relativa al fuso orario, ove presente, di modo che la data sia conforme a xsd:date --> "aaaa-mm-dd"
+* In un raggruppamento, se la stringa relativa al **ruolo** non corrisponde alle specifiche dello [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd), viene inserita la stringa più simile tra quelle previste dallo schema. in questo caso, la stringa originale viene inserita comunque con la chiave "ruoloOriginal". 
+* Nello stesso modo viene processato il campo **sceltaContraente**: "sceltaContraenteOriginal" viene aggiunto se esso non corrisponde al suddetto [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+* Il campo **data** viene ripulito dai caratteri non numerici o non "/", inoltre viene ripossa la parte relativa al fuso orario, ove presente, di modo che la data sia conforme a xsd:date --> "yyyy-mm-dd"
+* I campi contenenti un **importo** vengono ripuliti dai caratteri non numerici o non '.' e ',' e la ',' viene convertita in '.'
 		
 #Aggiunta di campi aggiuntivi ed hash: 
 + Per ciascun partecipante/agiudicatario: campo **"type"**, valorizzato con  "partecipante" o  "raggruppamento", in modo da poter trattare i dati del partecipante o raggruppamento in modo diverso. 
