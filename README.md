@@ -1,6 +1,7 @@
 # AVCP-ANAC
 script per la conversione da xml a json dei file di contratti pubblici relativi alla legge 190/2012
 La struttura dell'output in  json ricalca quella indicata  nelle [specifiche tecniche AVCP](http://www.anticorruzione.it/portal/rest/jcr/repository/collaboration/Digital%20Assets/pdf/AllCom27.05.13SpecificeTecnichev1.0.pdf )
+![schema](https://cloud.githubusercontent.com/assets/11498717/7343336/afb74876-ecc0-11e4-8ca5-9fedcda4c178.png)
 		
 #Correzione e validazione dei dati
 * L'aggiudicatario di una gara viene aggiunto anche tra i partecipanti, qualora non fosse già presente. 
