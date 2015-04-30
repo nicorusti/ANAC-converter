@@ -45,16 +45,19 @@ Per ciascun file xml, sotto la chiave "metrics" sono disponibili delle metriche 
             "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
+            }
 	* "nValid" indica il n. delle gare in cui il campo sceltaContrante è presente e risponce allo schema xsd
 	* "nInvalid" indica le occorrenze in cui il campo sceltaContraente è simile ad uno dei campi nello schema xsd. In questo caso il campo scelto è quello con similitudine maggiore 
 	* "totalAwardedPrice" indica la somma degli importi aggiudicati per singolo tipo di procedura di aggiudicazione
 	* "totalPaidPrice" indica la somma degli importi liquidati per singolo tipo di procedura di aggiudicazione 
  Qualora il campo sceltaContraente sia assente, le seguenti misure sono riportate: 
+	esempio:
 
 		"unknownProcType": {
             "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
+            }
 
 
 #Istruzioni: 
