@@ -16,12 +16,13 @@
                                 "ruolo": "01-MANDANTE"
                             }
                         ],
-                        "groupHash": "db4c36ccb343c76d68e4be459c910e516f958f5f",
+                        "groupHash": "1bd23f4b43be39f9922c7be116d9f715f80780b8",
                         "type": "aggiudicatarioRaggruppamento"
                     }
                 ],
-                "cig": "5128833EDE",
-                "cigValid": true,
+                "cig": "51288533EDE",
+                "cigHash": "b88e25bcc6d4463a44ab92070c11a0a04fa3c4e9",
+                "cigValid": false,
                 "importoAggiudicazione": "55406.60",
                 "importoSommeLiquidate": "00.00",
                 "oggetto": "çòàùInterventi di modifica 7°impianti Nicola\\n ciao\\u di trasmissione dati/fonia per l’anno 2013, negli edifici di proprietà del Politecnico di Torino, o a questo affidati in uso, in Torino",
@@ -62,7 +63,7 @@
                         "type": "partecipante"
                     },
                     {
-                        "groupHash": "dff9ef888b1cb7fee11c415cb64671da64f4bbea",
+                        "groupHash": "886c5a7b6d71d9f69cdcbf9ab6b76b8d0000a52e",
                         "raggruppamento": [
                             {
                                 "codiceFiscale": "04187501004",
@@ -78,7 +79,7 @@
                         "type": "raggruppamento"
                     },
                     {
-                        "groupHash": "db4c36ccb343c76d68e4be459c910e516f958f5f",
+                        "groupHash": "1bd23f4b43be39f9922c7be116d9f715f80780b8",
                         "raggruppamento": [
                             {
                                 "codiceFiscale": "04187505004",
@@ -196,188 +197,181 @@
     },
     "metrics": {
         "01-PROCEDURA APERTA": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "02-PROCEDURA RISTRETTA": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "03-PROCEDURA NEGOZIATA PREVIA PUBBLICAZIONE DEL BANDO": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "04-PROCEDURA NEGOZIATA SENZA PREVIA PUBBLICAZIONE DEL BANDO": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
-            "totalAwardedPrice": 0,
-            "totalPaidPrice": 0
+            "nValid": 1,
+            "totalAwardedPrice": 55406.6,
+            "totalPaidPrice": 0.0
         },
         "05-DIALOGO COMPETITIVO": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "06-PROCEDURA NEGOZIATA SENZA PREVIA INDIZIONE DI  GARA ART. 221 D.LGS. 163/2006": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "07-SISTEMA DINAMICO DI ACQUISIZIONE": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "08-AFFIDAMENTO IN ECONOMIA - COTTIMO FIDUCIARIO": {
-            "nAbsent": 0,
-            "nInvalid": 0,
-            "nPresent": 0,
-            "totalAwardedPrice": 0,
-            "totalPaidPrice": 0
+            "nInvalid": 1,
+            "nValid": 1,
+            "totalAwardedPrice": 32952.8,
+            "totalPaidPrice": 24283.4
         },
         "14-PROCEDURA SELETTIVA EX ART 238 C.7, D.LGS. 163/2006": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "17-AFFIDAMENTO DIRETTO EX ART. 5 DELLA LEGGE N.381/91": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "21-PROCEDURA RISTRETTA DERIVANTE DA AVVISI CON CUI SI INDICE LA GARA": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "22-PROCEDURA NEGOZIATA DERIVANTE DA AVVISI CON CUI SI INDICE LA GARA": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "23-AFFIDAMENTO IN ECONOMIA - AFFIDAMENTO DIRETTO": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "24-AFFIDAMENTO DIRETTO A SOCIETA' IN HOUSE": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "25-AFFIDAMENTO DIRETTO A SOCIETA' RAGGRUPPATE/CONSORZIATE O CONTROLLATE NELLE CONCESSIONI DI LL.PP": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "26-AFFIDAMENTO DIRETTO IN ADESIONE AD ACCORDO QUADRO/CONVENZIONE": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "27-CONFRONTO COMPETITIVO IN ADESIONE AD ACCORDO QUADRO/CONVENZIONE": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "28-PROCEDURA AI SENSI DEI REGOLAMENTI DEGLI ORGANI COSTITUZIONALI": {
-            "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         },
         "awardedPice": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nValid": 0,
-            "totalAmount": 0
+            "nValid": 3,
+            "totalAmount": 88359.4
         },
         "cig": {
             "nAbsent": 0,
-            "nInvalid": 0,
-            "nValid": 0
+            "nInvalid": 1,
+            "nValid": 2
         },
         "companyCF": {
-            "nAbsent": 0,
-            "nInvalid": 0,
-            "nValid": 0
+            "nAbsent": 2,
+            "nInvalid": 2,
+            "nValid": 14
         },
         "companyName": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nValid": 0
+            "nValid": 16
         },
         "endDate": {
-            "nAbsent": 0,
+            "nAbsent": 1,
             "nInvalid": 0,
-            "nValid": 0
+            "nValid": 2
         },
-        "nGroupParticipants": 0,
-        "nGroupWinners": 0,
+        "group": {
+            "nParticipants": 1,
+            "nWinners": 1,
+            "totalAwardedPrice": 55406.6,
+            "totalPaidPrice": 0.0
+        },
         "nLotti": 3,
-        "nParticipants": 0,
-        "nWinnerNotParticipant": 0,
-        "nWinners": 0,
+        "nWinnerNotParticipant": 2,
         "paidPrice": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nValid": 0,
-            "totalAmount": 0
+            "nValid": 3,
+            "totalAmount": 24283.4
         },
         "proposingStructureCF": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nValid": 0
+            "nValid": 3
         },
         "role": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nValid": 0
+            "nValid": 4
+        },
+        "single": {
+            "nParticipants": 10,
+            "nWinners": 2,
+            "totalAwardedPrice": 32952.8,
+            "totalPaidPrice": 24283.4
         },
         "startDate": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nValid": 0
+            "nValid": 3
         },
-        "unknownProcType": {
+        "tenderObject": {
             "nAbsent": 0,
             "nInvalid": 0,
-            "nPresent": 0,
+            "nValid": 3
+        },
+        "unknownProcType": {
+            "nValid": 0,
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
         }
