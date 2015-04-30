@@ -58,6 +58,17 @@ Per ciascun file xml, sotto la chiave "metrics" sono disponibili delle metriche 
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
             }
+* per ciascuno dei campi campi "awardedPrice", "cig", "companyCF", "companyName" (ragione sociale), "endDate", "paidPrice" (importo somme liquidate), "proposingStructureCF", "role" (ruolo in un raggruppamento),  "startDate",  "tenderObject"  sono disponibili i seguenti contatori, come da esempio: 
+
+        	"cig": {
+            "nAbsent": 0,
+            "nInvalid": 1,
+            "nValid": 2
+        }
+        * "nAbsent" indica il n. delle occorrenze in cui il dato é assente 
+        * "nInvalid" indica il n. delle occorrenze in cui il dato è presente ma non valido. Oggetto di una gara e regione sociale di un'azienda sono considerati invalidi se lunghi meno di 2 caratteri. Importo di aggiudicazione e somme liquidate sono considerate invalide se, una volta ripulite di caratteri non numerici e non ',' o '.'  non sono convertibili in float. Le date sono considerate invalide se, una volta ripulite, non soddisfano il formato yyy-mm-dd o se yyyy<1000 o yyyy>2999, se i mesi e i igorni sono inesistenti. cig e c.f./p.iva sono considerati invalidi se non corrispondenti alle specifiche. Role è invalido se diverso dalle stringhe specificate dallo  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+        * "nValid"  indica il n. delle occorrenze in cui il campo è presente e valido
+        
 
 
 #Istruzioni: 
