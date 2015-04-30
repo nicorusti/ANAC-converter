@@ -195,6 +195,191 @@
         "urlFile": "www.swas.polito.it/services/avcp/avcp_dataset_2012.xml"
     },
     "metrics": {
-        "nLotti": 3
+        "01-PROCEDURA APERTA": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "02-PROCEDURA RISTRETTA": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "03-PROCEDURA NEGOZIATA PREVIA PUBBLICAZIONE DEL BANDO": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "04-PROCEDURA NEGOZIATA SENZA PREVIA PUBBLICAZIONE DEL BANDO": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "05-DIALOGO COMPETITIVO": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "06-PROCEDURA NEGOZIATA SENZA PREVIA INDIZIONE DI  GARA ART. 221 D.LGS. 163/2006": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "07-SISTEMA DINAMICO DI ACQUISIZIONE": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "08-AFFIDAMENTO IN ECONOMIA - COTTIMO FIDUCIARIO": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "14-PROCEDURA SELETTIVA EX ART 238 C.7, D.LGS. 163/2006": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "17-AFFIDAMENTO DIRETTO EX ART. 5 DELLA LEGGE N.381/91": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "21-PROCEDURA RISTRETTA DERIVANTE DA AVVISI CON CUI SI INDICE LA GARA": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "22-PROCEDURA NEGOZIATA DERIVANTE DA AVVISI CON CUI SI INDICE LA GARA": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "23-AFFIDAMENTO IN ECONOMIA - AFFIDAMENTO DIRETTO": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "24-AFFIDAMENTO DIRETTO A SOCIETA' IN HOUSE": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "25-AFFIDAMENTO DIRETTO A SOCIETA' RAGGRUPPATE/CONSORZIATE O CONTROLLATE NELLE CONCESSIONI DI LL.PP": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "26-AFFIDAMENTO DIRETTO IN ADESIONE AD ACCORDO QUADRO/CONVENZIONE": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "27-CONFRONTO COMPETITIVO IN ADESIONE AD ACCORDO QUADRO/CONVENZIONE": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "28-PROCEDURA AI SENSI DEI REGOLAMENTI DEGLI ORGANI COSTITUZIONALI": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        },
+        "awardedPice": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0,
+            "totalAmount": 0
+        },
+        "cig": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "companyCF": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "companyName": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "endDate": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "nGroupParticipants": 0,
+        "nGroupWinners": 0,
+        "nLotti": 3,
+        "nParticipants": 0,
+        "nWinnerNotParticipant": 0,
+        "nWinners": 0,
+        "paidPrice": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0,
+            "totalAmount": 0
+        },
+        "proposingStructureCF": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "role": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "startDate": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nValid": 0
+        },
+        "unknownProcType": {
+            "nAbsent": 0,
+            "nInvalid": 0,
+            "nPresent": 0,
+            "totalAwardedPrice": 0,
+            "totalPaidPrice": 0
+        }
     }
 }
