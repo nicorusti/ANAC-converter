@@ -90,16 +90,12 @@ Per ciascun file xml, sotto la chiave **"metrics"** sono disponibili delle metri
 #Istruzioni: 
 Usare le seguenti funzioni presenti in main():
 
-	getFileNameFromCommandLine()
+	toJson("filename.xml")
 	
-> Converte singoli file xml, già presenti nella stessa cartella dove viene eseguito lo script, in formato json
+> Converte  filename.xml, che deve essere presente nella stessa cartella dove viene eseguito lo script, in formato json. Funziona sia con i file di indice che con i file di dati
 
 
-	downloadAndParseEverything("http://url_file_indice.xml")
-	
-> Scarica e parsifica il file di indice e tutti i file da esso linkati.
-Passare alla funzione l'url del file xml di indice. I file xml e json sono salvati nella cartella download\nome_istituzione\anno , dove nome_istituzione ed anno sono presi dal 	file di indice. 
-Qualora esista già il percorso download\nome_istituzione\anno, i file presenti non sono sovrascritti ma salvati nella cartella download\nome_istituzione\anno_1 
+
 
 
 
