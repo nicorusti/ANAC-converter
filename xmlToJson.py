@@ -9,7 +9,7 @@ import re
 from difflib import SequenceMatcher
 from operator import itemgetter
 
-#strings of procedure types according to xsd schema 
+#strings of procedure types and roles according to xsd schema 
 PROCTYPES        =['01-PROCEDURA APERTA',
                  '02-PROCEDURA RISTRETTA',
                  '03-PROCEDURA NEGOZIATA PREVIA PUBBLICAZIONE DEL BANDO',
@@ -29,6 +29,7 @@ PROCTYPES        =['01-PROCEDURA APERTA',
                  '27-CONFRONTO COMPETITIVO IN ADESIONE AD ACCORDO QUADRO/CONVENZIONE',  
                  '28-PROCEDURA AI SENSI DEI REGOLAMENTI DEGLI ORGANI COSTITUZIONALI',
                  ]
+ROLES =['01-MANDANTE', '02-MANDATARIA', '03-ASSOCIATA', '04-CAPOGRUPPO',  '05-CONSORZIATA']
 
 #------------------------------TENDER DATA/METADATA PARSING FUNCTIONS-------------------------------------------
 
@@ -150,7 +151,8 @@ def companyGroupParse(group, tipoAzienda, metrics):
 #if some fields are not found, they are ignored and not added to the list/dictionary
 def lottiToObject(rootNode):
     tenders =[]
-    metrics=metricsInit() 
+    metrics=metricsInit()
+    outFileDict=dict()
     lotti=rootNode.getElementsByTagName("lotto")    
     if (lotti.length!=0):
         for lotto in lotti:
@@ -353,20 +355,18 @@ def lottiToObject(rootNode):
         print ("trovati ", metrics['nLotti'], "lotti")
         lottiObj=dict()
         lottiObj["lotto"]=tenders
-        outFileDict=dict()
         outFileDict['metrics']=metrics
         outFileDict['data']=lottiObj
-        return outFileDict
     else:
         print ("PARSE ERROR: lotti information not found!")
-        return ""
+    return outFileDict
 
 #returns a dictionary containing all metadata
 #if some fields are not found, they are ignored and not added to the dictionary
 def metadataToObject(rootNode, metadataType):
+    metadataObj=dict()
     if len(rootNode.getElementsByTagName("metadata"))!=0: 
         metadata=rootNode.getElementsByTagName("metadata")[0]   #controlla!!!!! TODO TODO 
-        metadataObj=dict()
         #NOTE: the xml files, according to AVCP xsd schema, have the tag "dataPubbicazioneDataset"
         #it is wrong according to Italian grammar, but there is really the field  "Pubbicazione"
         if metadataType=="indexMetadata":
@@ -392,7 +392,7 @@ def metadataToObject(rootNode, metadataType):
                 print ("PARSE ERROR: no "+metadataField+" found!")
         metadataObj['annoRiferimento']=re.sub(r'[^0-9]', '', metadataObj['annoRiferimento'])
     else:
-         print ("PARSE ERROR: no metadata found!")   
+         print ("PARSE ERROR: no metadata found!")
     return metadataObj
 
 
@@ -512,8 +512,6 @@ def addWinnerToBidders(partecipanti, aggiudicatari, metrics):
                 newParticipant['type']="partecipante"
                 partecipanti.append(newParticipant)
 
-           
-
         if aggiudicatario['type']== "aggiudicatarioRaggruppamento":
             if 'groupHash' in aggiudicatario.keys():
                 winnerId=aggiudicatario['groupHash']
@@ -606,7 +604,6 @@ def groupHash(gara):
                     for vatId in vatIdList:
                         groupHashBase+=vatId                 
                     partecipante['groupHash']=hashlib.sha1(groupHashBase.encode('utf-8')).hexdigest()
-                    #print(partecipante['groupHash'])
                    
 
 #clear any non alfanumeric char from a string
@@ -667,9 +664,8 @@ def toDate(string):
     
 #returns a string, from the xsd schema, of the most similar role to the given one
 def mostSimilarRole(string):
-    ruoli =['01-MANDANTE', '02-MANDATARIA', '03-ASSOCIATA', '04-CAPOGRUPPO',  '05-CONSORZIATA']
     similarity=[]
-    for ruolo in ruoli:
+    for ruolo in ROLES:
         similarity.append([-SequenceMatcher(None, string.upper(), ruolo).ratio(), ruolo])
     similarity=sorted(similarity, key=itemgetter(0))
     return similarity[0][1]
