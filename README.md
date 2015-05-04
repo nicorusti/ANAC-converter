@@ -37,8 +37,8 @@ Il json creato si divide in tre sezioni:
 * Aggiunta campi **"sceltaContraenteOriginal"** e  **"ruoloOriginal"** nei casi in cui questi campi nel xml siano valorizzati con stringhe non previste dallo  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
  
 #Conteggi e metriche: 
-Per ciascun file xml, sotto la chiave "metrics" sono disponibili delle metriche per i seguenti campi: 
-* ciascuno dei possibili campi **sceltaContraente"** presenti nello  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+Per ciascun file xml, sotto la chiave **"metrics"** sono disponibili delle metriche per i seguenti campi: 
+* ciascuno dei possibili campi "sceltaContraente" presenti nello  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
 	esempio: 
 
 		"01-PROCEDURA APERTA": {
@@ -47,10 +47,10 @@ Per ciascun file xml, sotto la chiave "metrics" sono disponibili delle metriche 
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
             }
-	* "nValid" indica il n. delle gare in cui il campo sceltaContrante è presente e risponce allo schema xsd
-	* "nInvalid" indica le occorrenze in cui il campo sceltaContraente è simile ad uno dei campi nello schema xsd. In questo caso il campo scelto è quello con similitudine maggiore 
-	* "totalAwardedPrice" indica la somma degli importi aggiudicati per singolo tipo di procedura di aggiudicazione
-	* "totalPaidPrice" indica la somma degli importi liquidati per singolo tipo di procedura di aggiudicazione 
+	* **"nValid"** indica il n. delle gare in cui il campo sceltaContrante è presente e risponce allo schema xsd
+	* **"nInvalid"** indica le occorrenze in cui il campo sceltaContraente è simile ad uno dei campi nello schema xsd. In questo caso il campo scelto è quello con similitudine maggiore 
+	* **"totalAwardedPrice"** indica la somma degli importi aggiudicati per singolo tipo di procedura di aggiudicazione
+	* **"totalPaidPrice"** indica la somma degli importi liquidati per singolo tipo di procedura di aggiudicazione 
  Qualora il campo sceltaContraente sia assente, le seguenti misure sono riportate: 
 	esempio:
 
@@ -59,7 +59,7 @@ Per ciascun file xml, sotto la chiave "metrics" sono disponibili delle metriche 
             "totalAwardedPrice": 0,
             "totalPaidPrice": 0
             }
-* per ciascuno dei campi campi "awardedPrice", "cig", "companyCF", "companyName" (ragione sociale), "endDate", "paidPrice" (importo somme liquidate), "proposingStructureCF", "role" (ruolo in un raggruppamento),  "startDate",  "tenderObject"  sono disponibili i seguenti contatori, come da esempio: 
+* per ciascuno dei campi campi **"awardedPrice"**, **"cig"**, **"companyCF"**, **"companyName"** (ragione sociale), **"endDate"**, **"paidPrice"** (importo somme liquidate), **"proposingStructureCF"**, **"role"** (ruolo in un raggruppamento),  **"startDate"**,  **"tenderObject"**  sono disponibili i seguenti contatori, come da esempio: 
 
         	"cig": {
             "nAbsent": 0,
@@ -67,11 +67,24 @@ Per ciascun file xml, sotto la chiave "metrics" sono disponibili delle metriche 
             "nValid": 2
         }
         
-       * "nAbsent" indica il n. delle occorrenze in cui il dato é assente 
-       * "nInvalid" indica il n. delle occorrenze in cui il dato è presente ma non valido. Oggetto di una gara e regione sociale di un'azienda sono considerati invalidi se lunghi meno di 2 caratteri. Importo di aggiudicazione e somme liquidate sono considerate invalide se, una volta ripulite di caratteri non numerici e non ',' o '.'  non sono convertibili in float. Le date sono considerate invalide se, una volta ripulite, non soddisfano il formato yyy-mm-dd o se yyyy<1000 o yyyy>2999, se i mesi e i igorni sono inesistenti. cig e c.f./p.iva sono considerati invalidi se non corrispondenti alle specifiche. Role è invalido se diverso dalle stringhe specificate dallo  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
-       * "nValid"  indica il n. delle occorrenze in cui il campo è presente e valido
+       * **"nAbsent"** indica il n. delle occorrenze in cui il dato é assente 
+       * **"nInvalid"** indica il n. delle occorrenze in cui il dato è presente ma non valido. Oggetto di una gara e regione sociale di un'azienda sono considerati invalidi se lunghi meno di 2 caratteri. Importo di aggiudicazione e somme liquidate sono considerate invalide se, una volta ripulite di caratteri non numerici e non ',' o '.'  non sono convertibili in float. Le date sono considerate invalide se, una volta ripulite, non soddisfano il formato yyy-mm-dd o se yyyy<1000 o yyyy>2999, se i mesi e i igorni sono inesistenti. cig e c.f./p.iva sono considerati invalidi se non corrispondenti alle specifiche. Role è invalido se diverso dalle stringhe specificate dallo  [schema XSD](http://dati.avcp.it/schema/TypesL190.xsd)
+       * **"nValid"**  indica il n. delle occorrenze in cui il campo è presente e valido
 
-TO BE CONTINUED         
+* per i campi **"awardedPrice"** e **"paidPrice"** è presente anche il campo **"totalAmount"** che contiene la somma degli importi di aggiudicazione o delle somme liquidate nell'intero file xml.
+* I campi **"single"** e **"group"** contengono le seguenti metriche: 
+		
+		"single": {
+            "nParticipants": 10,
+            "nParticipants": 2,
+            "totalAwardedPrice": 32952.8,
+            "totalPaidPrice": 24283.4
+        }
+	* **"nParticipants"** indica, per tutto il file xml,  il numero di partecipanti di tipo singolo / raggruppamento (esclusi eventuali aggiudicatari non partecipanti, aggiunti tra i partecipanti dallo script)
+	* **"nParticipants"** indica il numero degli aggiudicatari
+	* **"totalAwardedPrice"** e **"totalPaidPrice"** indicano la somma degli importi di aggiudicazione / delle somme liquidate per ciascun tipo di partecipante (singolo o raggruppamento)
+***"nWinnerNotParticipant"** indica il numero dei vincitori non presente tra i partecipanti. 
+* **"nLotti"** indica il numero di gare presenti nel file xml 
 
 
 #Istruzioni: 
