@@ -90,9 +90,9 @@ Per ciascun file xml, sotto la chiave **"metrics"** sono disponibili delle metri
 #Istruzioni: 
 Usare le seguenti funzioni presenti in main():
 
-	toJson("filename.xml")
+	toJson("foldername/filename.xml", "outputfolder/myNewJson/")
 	
-> Converte  filename.xml, che deve essere presente nella stessa cartella dove viene eseguito lo script, in formato json. Funziona sia con i file di indice che con i file di dati
+> Converte  filename.xml, che deve essere presente in una sottocartella dove viene eseguito lo script, in formato json. Funziona sia con i file di indice che con i file di dati. 
 
 
 
