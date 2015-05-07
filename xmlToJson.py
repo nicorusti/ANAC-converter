@@ -31,6 +31,18 @@ PROCTYPES        =['01-PROCEDURA APERTA',
                  ]
 ROLES =['01-MANDANTE', '02-MANDATARIA', '03-ASSOCIATA', '04-CAPOGRUPPO',  '05-CONSORZIATA']
 
+
+    #decommentare per elaborare  un file già presente in locale,presente in  dove si trova lo script
+    #il file può essere sia di indice che un dataset di bandi
+    #passare alla funzione il percorso del file di input (da trovarsi in una sottocartella della directory dove si esegue il programma!)
+    #e il percorso dove scrivere il json SENZA il nome del file
+    #esempio: toJson("download/polito2013_01.xml", "download/converted/") 
+if __name__ == '__main__':
+    toJson("polito2013_01.xml", "")   
+
+
+
+
 #------------------------------TENDER DATA/METADATA PARSING FUNCTIONS-------------------------------------------
 
 #returns a  dictionary for a single company (which may be a bidder or a winner)
@@ -683,10 +695,10 @@ def mostSimilarProcedure(string):
 
 #writes the parsed contracts filename.xml into filename.json
 #Existing filename.json file is overwritten
-def dataXmlToJson(fIn):
+def dataXmlToJson(fIn, outPath):
     print("converting ", fIn, "to json")
     base = os.path.splitext(fIn)[0]
-    fOutName = base+".json"
+    fOutName = outPath+base+".json"
     f = open(fOutName, 'w', encoding='utf-8')    
     try:
         DOMTree=xml.dom.minidom.parse(fIn)
@@ -707,7 +719,7 @@ def dataXmlToJson(fIn):
 
 
 #funzione che scrive il file di indice dei contratti in formato json, più un file downloadInfo.json con informazioni sul download del file 
-def indexXmlToJson(fIn, writeFile):
+def indexXmlToJson(fIn, outPath):
     print("converting ", fIn, "to json")
     
     pubblicazione=dict()
@@ -725,21 +737,21 @@ def indexXmlToJson(fIn, writeFile):
     if len(pubblicazione["indice"])==0:
         pubblicazione.pop("indice", None)
 
-    if writeFile==True: 
-        try:
-            base = os.path.splitext(fIn)[0]
-            fOutName = base+".json"
-            print("converting ", fIn, "to ", fOutName)
-            f = open(fOutName, 'w', encoding='utf-8')
-            json.dump(pubblicazione, f, indent=4)
-            f.close()
-            print ("file ", fOutName,  "creato correttamente")
-        except:
-            print ("ERRORE: file ", fOutName, "non creato")
-        #return [fOutName, indexInfoFileName, re.sub(r'[^0-9]', '', indexData['metadata']['annoRiferimento']), indexData['metadata']['entePubblicatore'],]
+
+    try:
+        base = os.path.splitext(fIn)[0]
+        fOutName = outPath+ base+".json"
+        print("converting ", fIn, "to ", fOutName)
+        f = open(fOutName, 'w', encoding='utf-8')
+        json.dump(pubblicazione, f, indent=4)
+        f.close()
+        print ("file ", fOutName,  "creato correttamente")
+    except:
+        print ("ERRORE: file ", fOutName, "non creato")
+    
     return pubblicazione
 
-def toJson(fIn):
+def toJson(fIn, outPath):
     xmlReadable=False
     try:
         legge190=xml.dom.minidom.parse(fIn).documentElement
@@ -750,22 +762,9 @@ def toJson(fIn):
         dataset=legge190.getElementsByTagName("dataset")
         lotto=legge190.getElementsByTagName("lotto")
         if len(dataset)!=0:
-            indexXmlToJson(fIn, True)
+            indexXmlToJson(fIn, outPath)
         elif len(lotto)!=0:
-            dataXmlToJson(fIn)
+            dataXmlToJson(fIn, outPath)
         else:
             print("error ", fIn, " doesn't contain valid fields")
-
-
-
-
-            
-def main ():
-    #decommentare per elaborare  un file già presente in locale, nella stessa cartella dove si trova lo script
-    #il file può essere sia di indice che un dataset di bandi
-    toJson("polito2012.xml")   
-
-
-main()
-
 
