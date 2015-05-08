@@ -13,6 +13,7 @@ import email.utils
 import time
 import timeit
 
+
 #LOCAL FILES PATHS. CHANGE ONLY BEFORE FIRST EXECUTION!
 DOWN_DIR="download/"
 ANAC_FILE=DOWN_DIR+"datasetANAC.json"
@@ -20,18 +21,26 @@ INFO_FILE=DOWN_DIR+"downloadInfo.json"
 PROPOSING_STRUCTURES_FILE=DOWN_DIR+"proposingStructures.json"
 TEMP_DIR=DOWN_DIR+"temp/"
 XML_SUBDIR="xml/"
+
+#for a correctly downloaded and parseable file, sets the time (in seconds) after which header
+#is checked again for updates
+#1 day= 86400
+HEADER_CHECK_INTERVAL=86400*3
     
 
 #download file from remote to local,
 #return True if download successful,otherwise return a String with error message
 def download(remote, local):
-    try: 
+    try:
+        #add http:// if not present  (otherwise urllib raises Exception!)
+        if len( urllib.parse.urlparse(remote).scheme)==0:
+           remote = "http://"+remote
         u = urllib.request.urlopen(remote)
         h = u.info()
         try: 
             totalSize = int(h["Content-Length"])
             totalSizeKB=totalSize/1024
-        except:
+        except Exception:
             totalSizeKB = "unknown Size"
             totalSize=0
         urllib.request.urlretrieve(remote, local)
@@ -45,8 +54,8 @@ def download(remote, local):
         return str(err)
     except urllib.error.ContentTooShortError as err:
         return str(err)
-    except:
-        return False
+    except Exception:
+        return "Unknown error"
     return True
 
 
@@ -60,30 +69,41 @@ dataset file is replaced with downloaded one if:
 
 """
 def updateSingleDataset(url, fileInfo, administrationId):
-    print("checking updates on single dataset ", url)
     toBeUpdated=False
+    headerChecked=False
     #check if exsisting  dataset was not downloaded correctly or is not parseable 
     if "downloaded" in fileInfo.keys() and "parseable" in fileInfo.keys():
-        if fileInfo["downloaded"]!=True or fileInfo["parseable"]==False:
+        if fileInfo["downloaded"]!=True or fileInfo["parseable"]!=True:
             toBeUpdated=True
     #check if dataset was never downloaded before
     else:
         toBeUpdated=True
             
     #Check if existing file is up to date (check url http header fields last-updated and size)
-    if "sizeServer" in fileInfo.keys() and "lastUpdateServer" in fileInfo.keys(): 
-        httpInfo=checkUrl(url)
-        if fileInfo["sizeServer"]<httpInfo[0] or fileInfo["lastUpdateServer"]<httpInfo[1] or( httpInfo[0]==-1 and   httpInfo[1]==-1): 
-            toBeUpdated=True
+    #Check header again only if 
+    if "sizeServer" in fileInfo.keys() and "lastHeaderCheck" in fileInfo.keys() and "downloaded" in fileInfo.keys() and "lastUpdateServer" in fileInfo.keys():
+        if fileInfo["downloaded"]==True and(time.mktime(time.gmtime())-fileInfo["lastHeaderCheck"])>HEADER_CHECK_INTERVAL: 
+            httpInfo=checkUrl(url)
+            fileInfo["lastHeaderCheck"]=time.mktime(time.gmtime())
+            headerChecked=True
+            if fileInfo["sizeServer"]<httpInfo[0] or fileInfo["lastUpdateServer"]<httpInfo[1] or( httpInfo[0]==-1 and   httpInfo[1]==-1): 
+                toBeUpdated=True
+    else:     #case in which some of the fields are missing due to a keyboard interrupt
+        toBeUpdated=True
+
             
     if toBeUpdated==True:
+        print()
+        print("Downloading", url)
         fileHash=hashlib.sha1(url.encode('utf-8')).hexdigest()
         fileInfo["fileName"]=fileHash+".xml"
         xmlFileTempPath=TEMP_DIR+fileInfo["fileName"]
         fileInfo["downloaded"]=download(url, xmlFileTempPath)
         fileInfo['URL']=url
         fileInfo["lastDownloadTry"]=time.mktime(time.gmtime())
-        httpInfo=checkUrl(url)
+        if headerChecked==False: 
+            httpInfo=checkUrl(url)
+            fileInfo["lastHeaderCheck"]=time.mktime(time.gmtime())
         fileInfo["sizeServer"]=httpInfo[0]
         fileInfo["lastUpdateServer"]=httpInfo[1]
         previouslyConverted=False
@@ -93,12 +113,14 @@ def updateSingleDataset(url, fileInfo, administrationId):
         if fileInfo["downloaded"]==True:
             try: 
                 fileInfo["sizeLocal"]=os.stat(xmlFileTempPath).st_size
-            except:
+            except Exception:
                 fileInfo["sizeLocal"]=-2
+        else:
+            print(str(fileInfo["downloaded"]))
         try:
             legge190=xml.dom.minidom.parse(xmlFileTempPath).documentElement
             fileInfo["parseable"]=True
-        except:
+        except Exception:
             fileInfo["parseable"]=False
             fileInfo["type"]="unknown"
         if fileInfo["parseable"]==True:
@@ -112,8 +134,11 @@ def updateSingleDataset(url, fileInfo, administrationId):
                     fileInfo["type"]="data"
                 else:
                     fileInfo["type"]="unknown"
-            except:
+            except Exception:
                 fileInfo["type"]="unknown"
+                
+        if fileInfo["downloaded"]==True and (fileInfo["parseable"]==False or fileInfo["type"]=="unknown"):
+            print("Not L.190 xml standard")
                 
         #create definitive directory download/CF_istituzione/
         defInstitutionDirectory =DOWN_DIR+administrationId+"/"+XML_SUBDIR 
@@ -133,7 +158,7 @@ def updateSingleDataset(url, fileInfo, administrationId):
             else:
                 try: 
                     os.remove(xmlFileDefPath)
-                except:
+                except Exception:
                     pass
         
                 
@@ -141,11 +166,11 @@ def updateSingleDataset(url, fileInfo, administrationId):
                     os.remove(xmlFileDefPath)
                 try: 
                     os.rename(xmlFileTempPath, xmlFileDefPath)
-                except:
+                except Exception:
                     fileInfo["downloaded"]==False
                 return True
         #erase temp file if not downloaded correctly 
-        elif os.path.exists(xmlFileTempPath)==True:
+        if os.path.exists(xmlFileTempPath)==True:
             os.remove(xmlFileTempPath)    
     return False
 
@@ -186,7 +211,7 @@ def downloadAllIndexedDatasets(url, administrationId, fileInfoList):
                 mainFilePath=DOWN_DIR+administrationId+"/"+XML_SUBDIR+mainFileInfo["fileName"]
                 legge190=xml.dom.minidom.parse(mainFilePath).documentElement
                 indice=indexDataToObject(legge190);
-            except:
+            except Exception:
                 print("errore nel leggere file di indice")
                 mainFileInfo["type"]="unknown"
                 mainFileInfo["parseable"]=False
@@ -215,6 +240,8 @@ Furthermore writes a DOWN_DIR/PROPOSING_STRUCTURES_FILE with a list of all the f
 (useful for linking with the Indice delle pubbliche amministrazioni)
 """
 def checkUpdates(urlANAC):
+    dataset=dict()
+    nXmlFiles=0
     #check that files downloadInfo.json exists (run only first time)
     print("Checking ANAC dataset...")
     if  os.path.exists(DOWN_DIR)==False:
@@ -233,8 +260,8 @@ def checkUpdates(urlANAC):
         fIn=open(INFO_FILE, 'r')
         downloadInfo=json.load(fIn)
         fIn.close()
-    except:
-        print("GENERAL ERROR: download informations json is corrupted!")
+    except Exception:
+        print("GENERAL ERROR: download downloadInformation.json is corrupted!")
         return False
 
     start_time = timeit.default_timer()
@@ -269,7 +296,7 @@ def checkUpdates(urlANAC):
             if found==False:    #if url is not in downloadInfo.json, add it!
                 count+=1
                 downloadInfo["data"].append(element)
-        elapsed = timeit.default_timer() - start_time        
+        elapsed = (timeit.default_timer() - start_time) /60       
         print ("Added %s new links from ANAC dataset in %s seconds" %(count, elapsed))         
 
         #Write proposingStructures.json 
@@ -282,9 +309,8 @@ def checkUpdates(urlANAC):
         print("Your ANAC dataset is already up to date!")
         
     #update of datasets files
-    nXmlFiles=0
     try: 
-        print("Downloading new contracts datasets...")
+        print("Looking for new contracts datasets...")
         for dataset in downloadInfo["data"]:
             administrationId=""
             if "CodiceFiscale" in dataset.keys():
@@ -301,13 +327,32 @@ def checkUpdates(urlANAC):
                     dataset["files"]=[]
                 nXmlFiles+=downloadAllIndexedDatasets(dataset["URL"], administrationId, dataset["files"])
         print ("Downloaded or updated %s xml datasets" %nXmlFiles)
-        
+        print("Writing final downloadInfo.json. DO NOT TERMINATE NOW to avoid database corruption!")
         #write fileInfo.json 
         fOut = open(INFO_FILE, 'w', encoding='utf-8')       
         json.dump(downloadInfo, fOut, indent=4, ensure_ascii=False, sort_keys=True)      
         fOut.close()
+    except KeyboardInterrupt:
+        print()
+        #clear any downloaded data for dataset where interrupt was called 
+        if "files" in dataset.keys():
+            dataset["files"]=[]
+        if "RagioneSociale" in dataset.keys():
+            print("KEYBOARD INTERRUPT: while checking "+dataset["RagioneSociale"])
+        else:
+            print("KEYBOARD INTERRUPT")
+        print("Writing final downloadInfo.json")
+        print("DO NOT TERMINATE NOW to avoid database corruption!")
+        print("please wait...")
+        fOut = open(INFO_FILE, 'w', encoding='utf-8')       
+        json.dump(downloadInfo, fOut, indent=4, ensure_ascii=False, sort_keys=True)      
+        fOut.close()
+        elapsed = (timeit.default_timer() - start_time)/60
+        print ("Downloaded or updated %s xml datasets" %nXmlFiles)
+        print("process terminated after %s minutes" %elapsed)
     except:
-        print("ERROR IN MASS DOWNLOADING DATASETS! writing errrorDownloadInfo.json")
+        print()
+        print("UNKNOWN ERROR IN checkUpdates()! writing errrorDownloadInfo.json")
         fOut = open(DOWN_DIR+"errorDownloadInfo.json", 'w', encoding='utf-8')       
         json.dump(downloadInfo, fOut, indent=4, ensure_ascii=False, sort_keys=True)      
         fOut.close()        
@@ -328,27 +373,26 @@ def checkUrl(url):
         length=f.getheader("Content-Length", default="")
         lastUpdate=f.getheader("Last-Modified", default="")
     except (urllib.error.URLError, urllib.error.HTTPError, urllib.error.ContentTooShortError) as err:
-        print("CheckUrl ERROR: %s unaccessible for: %s " %( url, str(err)))
+        #print("CheckUrl ERROR: %s unaccessible for: %s " %( url, str(err)))
         length=""
         lastUpdate=""
-    except:
-        print("CheckUrl ERROR while opening %s Unknown error!!!" %url)
+    except Exception:
+        #print("CheckUrl ERROR while opening %s Unknown error!!!" %url)
         length=""
         lastUpdate=""
-        print(str(sys.exc_info()))
+        #print(str(sys.exc_info()))
         
     try:
         result[0]=int(length)
-    except:
+    except Exception:
         pass
     try:
         result[1]=time.mktime(email.utils.parsedate(lastUpdate))
-    except:
+    except Exception:
         pass
     return result
 
 
 if __name__ == '__main__':
     checkUpdates("http://dati.anticorruzione.it/data/L190.json")
-
-
+    #input("press enter to exit")
