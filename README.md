@@ -1,6 +1,6 @@
 # L. 190 Public Contracts dataset processing 
-Codice testato ed eseguito su python 3.4.2
-Codice e documentazione in fase di sviluppo!
+Code tested and run on python  3.4.2
+
 
 #### Project: 
 These scripts are intended for use with Italian public contracts xml datasets, in compliance with the Transparency Act, L.190/2012. 
