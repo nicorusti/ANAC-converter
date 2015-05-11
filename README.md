@@ -22,7 +22,7 @@ To convert a single xml dataset (both index or data typr) run:
 
 	toJson("foldername/filename.xml", "outputfolder/myNewJson/")	#in script xmlToJson.py
 
-Check the project [wiki](https://github.com/nicorusti/ANAC-converter/wiki)
+#### For detailed instructions check the project [wiki](https://github.com/nicorusti/ANAC-converter/wiki)
 
 
 
