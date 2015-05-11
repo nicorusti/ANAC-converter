@@ -1,1 +1,121 @@
-
+{
+    "URL": "http://dati.anticorruzione.it/data/L190.json",
+    "data": [
+        {
+            "CodiceFiscale": "01302970932",
+            "DataAggiornamento": "23/04/2015 11:16:19",
+            "DataUltimoTentativoAccessoUrl": "31/03/2015 13:49:39",
+            "EsitoUltimoTentativoAccessoUrl": "SUCCESSO",
+            "IdentificativoPEC": "002591C8-7324-4811-97E3-ED4066EAA3FE@telecompost.it",
+            "RagioneSociale": "AZIENDA OSPEDALIERA SANTA MARIA DEGLI ANGELI",
+            "URL": "http://www.aopn.sanita.fvg.it/stc/avcp-xml/indice_O06002_avcp_dataset_2014.xml",
+            "files": [
+                {
+                    "URL": "http://www.aopn.sanita.fvg.it/stc/avcp-xml/indice_O06002_avcp_dataset_2014.xml",
+                    "convertedToJson": false,
+                    "downloaded": true,
+                    "fileName": "0c85a2e5dafae8baefa326ff365b28f488c80869_index.xml",
+                    "lastDownloadTry": 1431203954.0,
+                    "lastHeaderCheck": 1431203954.0,
+                    "lastUpdateServer": 1422609416.0,
+                    "parseable": true,
+                    "sizeLocal": 1456,
+                    "sizeServer": 1456,
+                    "type": "index"
+                },
+                {
+                    "URL": "http://www.aopn.sanita.fvg.it/stc/avcp-xml/O06002_avcp_dataset_2012.xml",
+                    "convertedToJson": false,
+                    "downloaded": true,
+                    "fileName": "8ecb76fefcb0574a2f41b886e4b7635310c93fdc.xml",
+                    "lastDownloadTry": 1431203955.0,
+                    "lastHeaderCheck": 1431203956.0,
+                    "lastUpdateServer": 1404220315.0,
+                    "parseable": true,
+                    "sizeLocal": 377451,
+                    "sizeServer": 377451,
+                    "type": "data"
+                },
+                {
+                    "URL": "http://www.aopn.sanita.fvg.it/stc/avcp-xml/O06002_avcp_dataset_2013.xml",
+                    "convertedToJson": false,
+                    "downloaded": true,
+                    "fileName": "462e3161c7f8eb9b5876841fee750add6e9910ee.xml",
+                    "lastDownloadTry": 1431203968.0,
+                    "lastHeaderCheck": 1431203970.0,
+                    "lastUpdateServer": 1404220315.0,
+                    "parseable": true,
+                    "sizeLocal": 3935591,
+                    "sizeServer": 3935591,
+                    "type": "data"
+                },
+                {
+                    "URL": "http://www.aopn.sanita.fvg.it/stc/avcp-xml/O06002_avcp_dataset_2014.xml",
+                    "convertedToJson": false,
+                    "downloaded": true,
+                    "fileName": "02617a0f9420a9ba4f64fe26e27ef91285be4045.xml",
+                    "lastDownloadTry": 1431203981.0,
+                    "lastHeaderCheck": 1431203982.0,
+                    "lastUpdateServer": 1422450872.0,
+                    "parseable": true,
+                    "sizeLocal": 3706586,
+                    "sizeServer": 3706586,
+                    "type": "data"
+                }
+            ]
+        },
+        {
+            "CodiceFiscale": "81001110931",
+            "DataAggiornamento": "23/04/2015 11:16:19",
+            "DataUltimoTentativoAccessoUrl": "22/04/2015 15:59:13",
+            "EsitoUltimoTentativoAccessoUrl": "FALLITO",
+            "IdentificativoPEC": "0031DF59-2B4D-11F0-A53E-5F6EEB47DF59@telecompost.it",
+            "RagioneSociale": "AMMINISTRAZIONE COMUNALE DI TRAMONTI DI SOTTO",
+            "URL": "http://www.comune.tramontidisotto.pn.it/index.php?id=30718",
+            "files": [
+                {
+                    "URL": "http://www.comune.tramontidisotto.pn.it/index.php?id=30718",
+                    "convertedToJson": false,
+                    "downloaded": true,
+                    "fileName": "fb9ead998aac41de43cfd184e0cf6050d7b74550.xml",
+                    "lastDownloadTry": 1431269732.0,
+                    "lastHeaderCheck": 1431269731.0,
+                    "lastUpdateServer": -1,
+                    "parseable": false,
+                    "sizeLocal": 20751,
+                    "sizeServer": 20751,
+                    "type": "unknown"
+                }
+            ]
+        },
+        {
+            "CodiceFiscale": "02801560307",
+            "DataAggiornamento": "23/04/2015 11:16:19",
+            "DataUltimoTentativoAccessoUrl": "22/04/2015 20:06:29",
+            "EsitoUltimoTentativoAccessoUrl": "FALLITO",
+            "IdentificativoPEC": "00609371-431E-1D2D-8D6D-CECCFF07570B@telecompost.it",
+            "RagioneSociale": "AZIENDA PER LASSISTENZA SANITARIA N 3 ALTO FRIULICOLLINAREMEDIO FRIULI",
+            "URL": "http://www.ass3.sanita.fvg.it/stc/avcp2014-xml",
+            "files": [
+                {
+                    "URL": "http://www.ass3.sanita.fvg.it/stc/avcp2014-xml",
+                    "convertedToJson": false,
+                    "downloaded": "HTTP Error 404: Not Found",
+                    "fileName": "8ad31d65282abb4d5a550b2b5b150c94c4a43f30.xml",
+                    "lastDownloadTry": 1431269732.0,
+                    "lastHeaderCheck": 1431269732.0,
+                    "lastUpdateServer": -1,
+                    "parseable": false,
+                    "sizeServer": -1,
+                    "type": "unknown"
+                }
+            ]
+        }
+    ],
+    "donwloaded": true,
+    "lastDownloadTry": 1431203878.0,
+    "lastUpdateServer": 1429773583.0,
+    "sizeLocal": 7927825,
+    "sizeServer": 7927825
+}
+        
