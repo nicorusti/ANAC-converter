@@ -8,7 +8,7 @@ import hashlib
 import re
 from difflib import SequenceMatcher
 from operator import itemgetter
-
+    
 #strings of procedure types and roles according to xsd schema 
 PROCTYPES        =['01-PROCEDURA APERTA',
                  '02-PROCEDURA RISTRETTA',
@@ -30,17 +30,6 @@ PROCTYPES        =['01-PROCEDURA APERTA',
                  '28-PROCEDURA AI SENSI DEI REGOLAMENTI DEGLI ORGANI COSTITUZIONALI',
                  ]
 ROLES =['01-MANDANTE', '02-MANDATARIA', '03-ASSOCIATA', '04-CAPOGRUPPO',  '05-CONSORZIATA']
-
-
-    #decommentare per elaborare  un file già presente in locale,presente in  dove si trova lo script
-    #il file può essere sia di indice che un dataset di bandi
-    #passare alla funzione il percorso del file di input (da trovarsi in una sottocartella della directory dove si esegue il programma!)
-    #e il percorso dove scrivere il json SENZA il nome del file
-    #esempio: toJson("download/polito2013_01.xml", "download/converted/") 
-if __name__ == '__main__':
-    toJson("polito2013_01.xml", "")   
-
-
 
 
 #------------------------------TENDER DATA/METADATA PARSING FUNCTIONS-------------------------------------------
@@ -188,12 +177,14 @@ def lottiToObject(rootNode):
                         metrics['proposingStructureCF']['nAbsent']+=1
                     if checkDataTag(strutturaProponente.getElementsByTagName("denominazione")): 
                         proposingStructureObj['denominazione']=strutturaProponente.getElementsByTagName("denominazione")[0].childNodes[0].data
-                    else: 
-                        print ("PARSE ERROR: proposing Structure name not found!")
+                    else:
+                        pass
+                        #print ("PARSE ERROR: proposing Structure name not found!")
                     proposingStructureList.append(proposingStructureObj)
                 gara['strutturaProponente']=proposingStructureList
             else:
-                print ("PARSE ERROR: proposing Structure information not found!")
+                pass
+                #print ("PARSE ERROR: proposing Structure information not found!")
             
             #READ TENDER OBJECT
             if checkDataTag(lotto.getElementsByTagName("oggetto")):
@@ -237,7 +228,7 @@ def lottiToObject(rootNode):
                 try:
                     awardedPrice=float(gara['importoAggiudicazione'])
                     metrics['awardedPrice']['nValid']+=1
-                except:
+                except Exception:
                     awardedPrice=0
                     metrics['awardedPrice']['nInvalid']+=1
                 metrics['awardedPrice']['totalAmount']+=awardedPrice
@@ -251,7 +242,7 @@ def lottiToObject(rootNode):
                 try:
                     paidPrice=float(gara['importoSommeLiquidate'])
                     metrics['paidPrice']['nValid']+=1
-                except:
+                except Exception:
                     paidPrice=0
                     metrics['paidPrice']['nInvalid']+=1
                 metrics['paidPrice']['totalAmount']+=paidPrice
@@ -275,9 +266,9 @@ def lottiToObject(rootNode):
                     metrics[gara['sceltaContraente']]['nValid']+=1
                     
             else:
-                metrics[gara['unknownProcType']]['nValid']+=1
-                metrics[gara['unknownProcType']]['totalAwardedPrice']+=awardedPrice
-                metrics[gara['unknownProcType']]['totalPaidPrice']+=paidPrice
+                metrics['unknownProcType']['nValid']+=1
+                metrics['unknownProcType']['totalAwardedPrice']+=awardedPrice
+                metrics['unknownProcType']['totalPaidPrice']+=paidPrice
                 #print ("PARSE ERROR: sceltaContraente tender award procedure  not found!")
 
 
@@ -309,7 +300,8 @@ def lottiToObject(rootNode):
                     del gara['aggiudicatari']
                     #print ("PARSE ERROR: no tender winners found!")
             else:
-                print ("PARSE ERROR: no tender winners found!")
+                pass
+                #print ("PARSE ERROR: no tender winners found!")
 
            
             #READ BIDDER TO TENDER  
@@ -364,13 +356,13 @@ def lottiToObject(rootNode):
 
             
             
-        print ("trovati ", metrics['nLotti'], "lotti")
+        #print ("trovati ", metrics['nLotti'], "lotti")
         lottiObj=dict()
         lottiObj["lotto"]=tenders
         outFileDict['metrics']=metrics
         outFileDict['data']=lottiObj
     else:
-        print ("PARSE ERROR: lotti information not found!")
+        print ("trovati 0 lotti")
     return outFileDict
 
 #returns a dictionary containing all metadata
@@ -401,10 +393,11 @@ def metadataToObject(rootNode, metadataType):
                 metadataObj[metadataField]=content
             else:
                 metadataObj[metadataField]=""
-                print ("PARSE ERROR: no "+metadataField+" found!")
+                #print ("PARSE ERROR: no "+metadataField+" found!")
         metadataObj['annoRiferimento']=re.sub(r'[^0-9]', '', metadataObj['annoRiferimento'])
     else:
-         print ("PARSE ERROR: no metadata found!")
+        pass
+         #print ("PARSE ERROR: no metadata found!")
     return metadataObj
 
 
@@ -465,16 +458,19 @@ def checkDataTag (tag):
         try:
             tag[0].childNodes[0].data
             return True
-        except:
+        except Exception:
             return False 
     return False
 
 def dateCheck(dateStr):
-    date=dateStr.split("-") 
-    if int(date[0])<2999 and int(date[0])>1000 and int(date[1])<13 and int(date[1])>0 and int(date[2])<32 and int(date[2])>0: 
-        return True
-    else:
-        return False 
+    date=dateStr.split("-")
+    try: 
+        if int(date[0])<2999 and int(date[0])>1000 and int(date[1])<13 and int(date[1])>0 and int(date[2])<32 and int(date[2])>0: 
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
 
 #returns True in case of  compliance of codice fiscale / p.iva with Italian standards.
 #returns False elsewhere, or if p.iva is "00000000000"
@@ -485,9 +481,29 @@ def codiceFiscaleCheck(cf):
         return True
     else:
         partitaIva=re.sub(r'[^0-9]', '', cf)
-        if len(partitaIva)==11 and partitaIva!= "00000000000":
-            return True 
+        if len(partitaIva)==11 and partitaIva!="00000000000":
+            return checkVatId(partitaIva)
         return False
+
+
+def checkVatId(string):
+    even=0
+    odd=0
+    for i in range(0, 10):
+        if (i%2)==0 :
+            even+=int(string[i])
+        else:
+            if (int(string[i])*2)>9:
+                odd+=(int(string[i])*2-9)
+            else:
+                odd+=int(string[i])*2
+    t=(even+odd)%10
+    control=(10-t)%10
+    return control==int(string[10])
+        
+            
+        
+       
 
 
 def cigCheck (cig):
@@ -627,52 +643,78 @@ def toUpperAlfanumeric (string):
 #return cleared string
 def toAmount(string):
     string=re.sub(r'[^,.0-9]', '', string)
-    string=re.sub(r',', '.', string)
-    count=string.count(".")-1
-    string=string.replace('.','',count)
+    #substitute case 12.345.456.567,89
+    if re.match(r"^([0-9]{0,3})\.([0-9]{3})\.([0-9]{3})\.([0-9]{3})\,([0-9]{2})$", string)!=None :
+        #print ("1 substituting ", string)
+        string=re.sub(r"^([0-9]{0,3})\.([0-9]{3})\.([0-9]{3})\.([0-9]{3})\,([0-9]{2})$",r"\1\2\3\4.\5", string)
+        #print (string)
+    #substitute case 34.456.567,89
+    if re.match(r"^([0-9]{0,3})\.([0-9]{3})\.([0-9]{3})\,([0-9]{2})$", string)!=None :
+        #print ("2 substituting " , string)
+        string=re.sub(r"^([0-9]{0,3})\.([0-9]{3})\.([0-9]{3})\,([0-9]{2})$",r"\1\2\3.\4", string)
+        #print (string)
+    # substitute case 34.456,78
+    if re.match(r"^([0-9]{0,3})\.([0-9]{3})\,([0-9]{2})$", string)!=None :
+        #print ("3 substituting ", string)
+        string=re.sub(r"^([0-9]{0,3})\.([0-9]{3})\,([0-9]{2})$",r"\1\2.\3", string)
+        #print (string)
+     # substitute case 34456,78
+    if re.match(r"^([0-9]*)\,([0-9]{2})$", string)!=None :
+        #print ("4 substituting ", string)
+        string=re.sub(r"^([0-9]*)\,([0-9]{2})$",r"\1.\2", string)
+        #print (string)
+        
+    try:
+        float(string)
+    except Exception:
+        if len(string)!=0:
+            pass
+            #print("AMOUNT ERROR" ,  string)
     return string
 
 #clear any non allowed char by xsd:date, cut timezone information 
 def toDate(string):
-    count=string.count("+")-1
-    string=string.replace('+','',count)
-    string=string.split( "+")[0]
-    string=string.replace("/", "-") 
-    string=string.replace('--','-')
-    result = []
-    #print("before", [char for char in string])
-    for char in string:
-        if (char.isdigit() or char=='-'):
-            result.append(char)
-        elif char == "\\":
-            result.append(char)
-        else:
-            result.extend({
-                "\12": ["\\", "12"],
-                "\0": ["\\", "0"],
-                "\1": ["\\", "1"],
-                "\10": ["\\", "10"],
-                "\11": ["\\", "11"],
-                "\12": ["\\", "12"],
-                "\2": ["\\", "2"],
-                "\3": ["\\", "3"],
-                "\4": ["\\", "4"],
-                "\5": ["\\", "5"],
-                "\6": ["\\", "6"],
-                "\7": ["\\", "7"],
-                "\20": ["\\", "20"],
-                "\200": ["\\", "200"],
-                "\201": ["\\", "201"],
-                "\202": ["\\", "202"],
-            }.get(char, ""))
-        #print("cur", result)
-    #print("after", result)
-    result = "".join(result).replace("\\", "-")
-    result = [x for x in result.split("-")]
-    result = "-".join(result)
-    result=result.replace('--','-')
-    #string=re.sub(r'[^-0-9]', '', string)
-    return result
+    if len(string)>9:  
+        count=string.count("+")-1
+        string=string.replace('+','',count)
+        string=string.split( "+")[0]
+        string=string.replace("/", "-") 
+        string=string.replace('--','-')
+        result = []
+        #print("before", [char for char in string])
+        for char in string:
+            if (char.isdigit() or char=='-'):
+                result.append(char)
+            elif char == "\\":
+                result.append(char)
+            else:
+                result.extend({
+                    "\12": ["\\", "12"],
+                    "\0": ["\\", "0"],
+                    "\1": ["\\", "1"],
+                    "\10": ["\\", "10"],
+                    "\11": ["\\", "11"],
+                    "\12": ["\\", "12"],
+                    "\2": ["\\", "2"],
+                    "\3": ["\\", "3"],
+                    "\4": ["\\", "4"],
+                    "\5": ["\\", "5"],
+                    "\6": ["\\", "6"],
+                    "\7": ["\\", "7"],
+                    "\20": ["\\", "20"],
+                    "\200": ["\\", "200"],
+                    "\201": ["\\", "201"],
+                    "\202": ["\\", "202"],
+                }.get(char, ""))
+            #print("cur", result)
+        #print("after", result)
+        result = "".join(result).replace("\\", "-")
+        result = [x for x in result.split("-")]
+        result = "-".join(result)
+        result=result.replace('--','-')
+        #string=re.sub(r'[^-0-9]', '', string)
+        return result
+    return string
     
 #returns a string, from the xsd schema, of the most similar role to the given one
 def mostSimilarRole(string):
@@ -696,15 +738,15 @@ def mostSimilarProcedure(string):
 #writes the parsed contracts filename.xml into filename.json
 #Existing filename.json file is overwritten
 def dataXmlToJson(fIn, outPath):
-    print("converting ", fIn, "to json")
-    base = os.path.splitext(fIn)[0]
+    
+    base=os.path.splitext(os.path.basename(fIn))[0]
     fOutName = outPath+base+".json"
-    f = open(fOutName, 'w', encoding='utf-8')    
+    
     try:
         DOMTree=xml.dom.minidom.parse(fIn)
-    except:
-        print("ERRORE generico nel parsing di "+ fIn+" , il file .json è stato creato vuoto" )
-        #TO DO return control for parsing dictionary
+    except Exception:
+        print("ERROR in dataXmlToJson(), "+ fIn+".json è stato creato vuoto" )
+        return False 
     legge190=DOMTree.documentElement
     pubblicazione=dict()
     pubblicazione=lottiToObject(legge190)
@@ -713,58 +755,91 @@ def dataXmlToJson(fIn, outPath):
     pubblicazione["metadata"]=metadataToObject(legge190, "contractsMetadata")
     if len(pubblicazione["metadata"])==0:
         pubblicazione.pop("metadata", None)
+         
+    f = open(fOutName, 'w', encoding='utf-8')
     json.dump(pubblicazione, f, indent=4, ensure_ascii=False, sort_keys=True)
     f.close()
-    print ("file ", fOutName, "creato correttamente")
+    #print ( fOutName, "creato correttamente")
 
 
 #funzione che scrive il file di indice dei contratti in formato json, più un file downloadInfo.json con informazioni sul download del file 
 def indexXmlToJson(fIn, outPath):
-    print("converting ", fIn, "to json")
-    
     pubblicazione=dict()
     try: 
         DOMTree=xml.dom.minidom.parse(fIn)
-    except:
-        print("ERRORE generico nel parsing di "+ fIn+" , il file .json è stato creato vuoto" )
-        return pubblicazione
-    
-    legge190=DOMTree.documentElement    
-    pubblicazione["metadata"]=metadataToObject(legge190, "indexMetadata" )
-    if len(pubblicazione["metadata"])==0:
-        pubblicazione.pop("metadata", None)
-    pubblicazione["indice"]=indexDataToObject(legge190)
-    if len(pubblicazione["indice"])==0:
-        pubblicazione.pop("indice", None)
 
-
-    try:
-        base = os.path.splitext(fIn)[0]
+        
+        legge190=DOMTree.documentElement    
+        pubblicazione["metadata"]=metadataToObject(legge190, "indexMetadata" )
+        if len(pubblicazione["metadata"])==0:
+            pubblicazione.pop("metadata", None)
+        pubblicazione["indice"]=indexDataToObject(legge190)
+        
+        if len(pubblicazione["indice"])==0:
+            pubblicazione.pop("indice", None)
+        base=os.path.splitext(os.path.basename(fIn))[0]
         fOutName = outPath+ base+".json"
-        print("converting ", fIn, "to ", fOutName)
         f = open(fOutName, 'w', encoding='utf-8')
-        json.dump(pubblicazione, f, indent=4)
+        json.dump(pubblicazione, f, indent=4,  ensure_ascii=False)
         f.close()
-        print ("file ", fOutName,  "creato correttamente")
-    except:
-        print ("ERRORE: file ", fOutName, "non creato")
+        #print ( fOutName,  "creato correttamente")
+    except Exception:
+        print ("ERROR in indexXmlToJson(): file ", fOutName, "non creato")
+        return False
     
     return pubblicazione
 
 def toJson(fIn, outPath):
-    xmlReadable=False
+    result=False
+    #print("converting ", fIn)
+    if  os.path.exists(fIn)==False:
+        print("file non existent")
+        print()
+        return False
     try:
         legge190=xml.dom.minidom.parse(fIn).documentElement
-        xmlReadable=True
-    except:
-        print("ERROR, ", fIn, " unreadable! There may be errors in xml structure, or file is nonexixtent!")
-    if xmlReadable==True: 
+    except Exception:
+        print("converting ", fIn)
+        print("not xml parseable")
+        print()
+        return False
+    
+    try: 
         dataset=legge190.getElementsByTagName("dataset")
         lotto=legge190.getElementsByTagName("lotto")
+        
         if len(dataset)!=0:
-            indexXmlToJson(fIn, outPath)
+            if indexXmlToJson(fIn, outPath)!=False:
+                result=True
         elif len(lotto)!=0:
-            dataXmlToJson(fIn, outPath)
-        else:
-            print("error ", fIn, " doesn't contain valid fields")
+            if dataXmlToJson(fIn, outPath)!= False:
+                result=True
+        if result==False:
+            print("converting ", fIn)
+            print("xml not complying to L.190 specifications")
+            print()
+        
+    except Exception:
+        print("converting ", fIn)
+        print("exception in toJson()")
+        print()
+        return False
+    
+    return result
+
+
+
+    #decommentare per elaborare  un file già presente in locale,presente in  dove si trova lo script
+    #il file può essere sia di indice che un dataset di bandi
+    #passare alla funzione il percorso del file di input (da trovarsi in una sottocartella della directory dove si esegue il programma!)
+    #e il percorso dove scrivere il json SENZA il nome del file
+    #esempio: toJson("download/polito2013_01.xml", "download/converted/") 
+if __name__ == '__main__':
+    toJson("input.xml", "output")
+    
+    
+
+
+        
+   
 
