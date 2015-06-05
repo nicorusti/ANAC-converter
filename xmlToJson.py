@@ -64,8 +64,12 @@ def companyParse(membro, tipoAzienda, metrics):
             participant['codiceFiscale']=re.sub(r'[^0-9]', '', participant['codiceFiscale'])
     if checkDataTag(membro.getElementsByTagName("identificativoFiscaleEstero")):
         participant['identificativoFiscaleEstero']=toUpperAlfanumeric(membro.getElementsByTagName("identificativoFiscaleEstero")[0].childNodes[0].data)
-        metrics['companyCF']['nValid']+=1
-        hasFiscalId=True
+        if len(participant['identificativoFiscaleEstero'])>3:
+            hasFiscalId=True
+            metrics['companyCF']['nValid']+=1
+        else:
+            metrics['companyCF']['nInvalid']+=1
+            hasFiscalId=False
     if hasFiscalId==False:
         metrics['companyCF']['nAbsent']+=1
         #print("PARSE ERROR:  "+tipoAzienda + " company fiscal id not found!")
@@ -126,8 +130,12 @@ def companyGroupParse(group, tipoAzienda, metrics):
                 participant['codiceFiscale']=re.sub(r'[^0-9]', '', participant['codiceFiscale'])
         if checkDataTag(membro.getElementsByTagName("identificativoFiscaleEstero")):
             participant['identificativoFiscaleEstero']=membro.getElementsByTagName("identificativoFiscaleEstero")[0].childNodes[0].data
-            metrics['companyCF']['nValid']+=1
-            hasFiscalId=True
+            if len(participant['identificativoFiscaleEstero'])>3:
+                hasFiscalId=True
+                metrics['companyCF']['nValid']+=1
+            else:
+                metrics['companyCF']['nInvalid']+=1
+                hasFiscalId=False
         if hasFiscalId==False:
             metrics['companyCF']['nAbsent']+=1
             #print("PARSE ERROR: "+tipoAzienda+" company fiscal id not found!")
@@ -815,13 +823,11 @@ def toJson(fIn, outPath):
             if dataXmlToJson(fIn, outPath)!= False:
                 result=True
         if result==False:
-            print("converting ", fIn)
-            print("xml not complying to L.190 specifications")
+            print("xml not complying to L.190 specifications: ", fIn)
             print()
-        
-    except Exception:
-        print("converting ", fIn)
-        print("exception in toJson()")
+            
+    except Exception  :         
+        print("exception in toJson() while converting ", fIn)
         print()
         return False
     
@@ -835,7 +841,7 @@ def toJson(fIn, outPath):
     #e il percorso dove scrivere il json SENZA il nome del file
     #esempio: toJson("download/polito2013_01.xml", "download/converted/") 
 if __name__ == '__main__':
-    toJson("input.xml", "output")
+    toJson("polito2012sample.xml", "polito2013")
     
     
 
